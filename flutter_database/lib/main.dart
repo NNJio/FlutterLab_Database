@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_database/models/transaction.dart';
 import 'package:flutter_database/providers/transaction_provider.dart';
 import 'package:flutter_database/screens/form_screen.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -59,7 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
         body: Consumer(
           builder: (context, TransactionProvider provider, child) {
             var count = provider.transactions.length;
-            if (count < 0) {
+            if (count <= 0) {
               return const Center(
                 child: Text(
                   "ไม่พบข้อมูล",
@@ -82,7 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                       ),
                       title: Text(data.title),
-                      subtitle: Text(data.date.toString()),
+                      subtitle: Text(DateFormat("dd/mm/yyyy").format(data.date)),
                     ),
                   );
                 },
