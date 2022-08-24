@@ -21,6 +21,7 @@ class MyApp extends StatelessWidget {
         )
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
           primarySwatch: Colors.blue,
@@ -49,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
               icon: const Icon(Icons.add),
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return const FormScreen();
+                  return FormScreen();
                 }));
               },
             )
@@ -57,13 +58,22 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         body: Consumer(
           builder: (context, TransactionProvider provider, child) {
-            return ListView.builder(
-                itemCount: provider.transactions.length,
-                itemBuilder: (context, int index) {
+            var count = provider.transactions.length;
+            if (count < 0) {
+              return const Center(
+                child: Text(
+                  "ไม่พบข้อมูล",
+                  style: TextStyle(fontSize: 40),
+                ),
+              );
+            } else {
+              return ListView.builder(
+                itemCount: count,
+                itemBuilder: (BuildContext context, int index) {
                   Transaction data = provider.transactions[index];
                   return Card(
                     elevation: 5,
-                    margin: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+                    margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
                     child: ListTile(
                       leading: CircleAvatar(
                         radius: 30,
@@ -75,7 +85,9 @@ class _MyHomePageState extends State<MyHomePage> {
                       subtitle: Text(data.date.toString()),
                     ),
                   );
-                });
+                },
+              );
+            }
           },
         ));
   }

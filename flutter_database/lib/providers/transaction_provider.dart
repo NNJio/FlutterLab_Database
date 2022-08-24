@@ -8,13 +8,15 @@ class TransactionProvider with ChangeNotifier {
     Transaction(title: "ซื้อเสื้อผ้า", amount: 900, date: DateTime.now()),
     Transaction(title: "ซื้อกางเกง", amount: 400, date: DateTime.now()),
     Transaction(title: "ซื้อนาฬิกา", amount: 5500, date: DateTime.now()),
-
   ];
+  //ดึงข้อมูล
   List<Transaction> getTransaction() {
     return transactions;
   }
 
-  addTransaction(Transaction statement) {
-    transactions.add(statement);
+  void addTransaction(Transaction statement) {
+    transactions.insert(0,statement);
+    // แจ้งเตือนไปที่ consumer
+    notifyListeners();
   }
 }
