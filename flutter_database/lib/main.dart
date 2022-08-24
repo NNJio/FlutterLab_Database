@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_database/models/transaction.dart';
+import 'package:flutter_database/providers/transaction_provider.dart';
 import 'package:flutter_database/screens/form_screen.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -9,12 +12,21 @@ class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) {
+            return TransactionProvider();
+          },
+        )
+      ],
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: const MyHomePage(title: 'แอพบัญชี'),
       ),
-      home: const MyHomePage(title: 'แอพบัญชี'),
     );
   }
 }
@@ -43,23 +55,28 @@ class _MyHomePageState extends State<MyHomePage> {
             )
           ],
         ),
-        body: ListView.builder(
-            itemCount: 20,
-            itemBuilder: (context, int index) {
-              return const Card(
-                elevation: 5,
-                margin: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-                child: ListTile(
-                  leading: CircleAvatar(
-                    radius: 30,
-                    child: FittedBox(
-                      child: Text('500'),
+        body: Consumer(
+          builder: (context, TransactionProvider provider, child) {
+            return ListView.builder(
+                itemCount: provider.transactions.length,
+                itemBuilder: (context, int index) {
+                  Transaction data = provider.transactions[index];
+                  return Card(
+                    elevation: 5,
+                    margin: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+                    child: ListTile(
+                      leading: CircleAvatar(
+                        radius: 30,
+                        child: FittedBox(
+                          child: Text(data.amount.toString()),
+                        ),
+                      ),
+                      title: Text(data.title),
+                      subtitle: Text(data.date.toString()),
                     ),
-                  ),
-                  title: Text('เมนู'),
-                  subtitle: Text('02/02/2222'),
-                ),
-              );
-            }));
+                  );
+                });
+          },
+        ));
   }
 }

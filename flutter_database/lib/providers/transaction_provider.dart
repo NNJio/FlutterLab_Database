@@ -7,6 +7,8 @@ class TransactionProvider with ChangeNotifier {
     Transaction(title: "ซื้อหนังสือ", amount: 500, date: DateTime.now()),
     Transaction(title: "ซื้อเสื้อผ้า", amount: 900, date: DateTime.now()),
     Transaction(title: "ซื้อกางเกง", amount: 400, date: DateTime.now()),
+    Transaction(title: "ซื้อนาฬิกา", amount: 5500, date: DateTime.now()),
+
   ];
   List<Transaction> getTransaction() {
     return transactions;
