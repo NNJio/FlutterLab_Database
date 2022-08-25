@@ -1,7 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
-import 'package:flutter_database/models/transaction.dart';
+import 'package:flutter_database/models/transactions.dart';
 import 'package:flutter_database/providers/transaction_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -63,7 +63,7 @@ class FormScreen extends StatelessWidget {
                     var amount = amountController.text;
 
                     //เตรียมข้อมูลไป provider
-                    Transaction statement = Transaction(
+                    Transactions statement = Transactions(
                       title: title,
                       amount: double.parse(amount),
                       date: DateTime.now(),
