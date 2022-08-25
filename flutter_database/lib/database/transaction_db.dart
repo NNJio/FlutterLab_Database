@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:flutter_database/models/transactions.dart';
 import 'package:path/path.dart';
@@ -41,21 +42,18 @@ class TransactionDB {
   }
 
   // ดึงข้อมูล
-  Future<bool> loadAllData() async {
+  Future<List> loadAllData() async {
     var db = await openDatabase();
     var store = intMapStoreFactory.store("expense");
     var snapshot = await store.find(db);
     List transactionList = <Transactions>[];
     // ดึงข้อมูลมาทีละแถว
-    for(var record in snapshot){
-      transactionList.add(
-        Transactions(
-          title: record["title"], 
-          amount: record["amount"], 
-          date: record["date"],
-          )
-      );
+    for (var record in snapshot) {
+      transactionList.add(Transactions(
+          title: record["title"] as String,
+          amount: record["amount"] as double,
+          date: DateTime.parse(record["date"] as String)));
     }
-    return true;
+    return transactionList;
   }
 }
