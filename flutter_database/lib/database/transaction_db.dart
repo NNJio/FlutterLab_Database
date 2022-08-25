@@ -24,10 +24,38 @@ class TransactionDB {
   }
 
   // บันทึกข้อมูล
-  Future InsertData(Transactions statement) async {
+  Future<int> InsertData(Transactions statement) async {
     // ฐานข้อมูล => store
     // tansaction.db => expense
     var db = await openDatabase();
     var store = intMapStoreFactory.store("expense");
+
+    // json
+    var keyID = store.add(db, {
+      "title": statement.title,
+      "amount": statement.amount,
+      "date": statement.date.toIso8601String(),
+    });
+    db.close();
+    return keyID;
+  }
+
+  // ดึงข้อมูล
+  Future<bool> loadAllData() async {
+    var db = await openDatabase();
+    var store = intMapStoreFactory.store("expense");
+    var snapshot = await store.find(db);
+    List transactionList = <Transactions>[];
+    // ดึงข้อมูลมาทีละแถว
+    for(var record in snapshot){
+      transactionList.add(
+        Transactions(
+          title: record["title"], 
+          amount: record["amount"], 
+          date: record["date"],
+          )
+      );
+    }
+    return true;
   }
 }
