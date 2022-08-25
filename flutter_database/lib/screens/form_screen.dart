@@ -70,10 +70,8 @@ class FormScreen extends StatelessWidget {
                     ); //jobject
 
                     //เรียก provider
-                    var provider = Provider.of<TransactionProvider>(context,
-                        listen: false);
-                    provider.addTransaction(statement);
-
+                    var provider = Provider.of<TransactionProvider>(context,listen:false);
+                          provider.addTransaction(statement);
                     Navigator.pop(context);
                   }
                 },

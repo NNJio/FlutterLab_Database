@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter_database/models/transactions.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sembast/sembast.dart';
@@ -11,14 +12,22 @@ class TransactionDB {
   //ถูกสร้างไว้แล้ว => เปิด
   TransactionDB({required this.dbName});
 
-  Future<Future<Database>> openDatabase() async {
+  Future<Database> openDatabase() async {
     //หาตำแหน่งที่จัดเก็บข้อมูล
     Directory appDirectory = await getApplicationDocumentsDirectory();
     //สร้างตัวเก็บตำแหน่งไฟล์ของ Database
     String dbLocation = join(appDirectory.path, dbName);
     // สร้าง database
-    DatabaseFactory dbFactory = await databaseFactoryIo;
-    Future<Database> db = dbFactory.openDatabase(dbLocation);
+    DatabaseFactory dbFactory = databaseFactoryIo;
+    Database db = await dbFactory.openDatabase(dbLocation);
     return db;
+  }
+
+  // บันทึกข้อมูล
+  Future InsertData(Transactions statement) async {
+    // ฐานข้อมูล => store
+    // tansaction.db => expense
+    var db = await openDatabase();
+    var store = intMapStoreFactory.store("expense");
   }
 }

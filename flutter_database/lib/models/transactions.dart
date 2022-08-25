@@ -7,4 +7,6 @@ class Transactions {
     required this.title, 
     required this.amount, 
     required this.date});
+
+  static void insert(int i, Transactions statement) {}
 }
