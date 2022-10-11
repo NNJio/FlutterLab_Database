@@ -83,4 +83,6 @@ class FormScreen extends StatelessWidget {
       ),
     );
   }
+  
+  FlatButton({required Color color, required Color textColor, required Null Function() onPressed, required Text child}) {}
 }
